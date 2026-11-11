@@ -1,0 +1,581 @@
+/* =========================================================
+   LOGIN · PATITAS FELICES
+   Orden:
+   1. Variables
+   2. Reinicio y base
+   3. Estructura (página, tarjeta)
+   4. Panel de marca (izquierda)
+   5. Panel del formulario (derecha)
+   6. Campos y botón
+   7. Mensajes, enlaces y pie
+   8. Responsive
+   9. Accesibilidad
+   ========================================================= */
+
+/* 1. VARIABLES ------------------------------------------- */
+:root {
+    --fondo: #09111f;
+    --tarjeta: #111f35;
+    --campo: #0a172a;
+    --borde: #304866;
+
+    --texto: #f5f8ff;
+    --texto-secundario: #c0cee0;
+    --texto-muted: #91a5bf;
+
+    --azul: #2a86f5;
+    --azul-claro: #75b6ff;
+    --rojo: #d14f5b;
+
+    --fuente-titulo: Georgia, "Times New Roman", serif;
+    --fuente-base: "Segoe UI", Arial, sans-serif;
+
+    --radio-tarjeta: 22px;
+    --radio-campo: 11px;
+    --sombra: 0 25px 65px rgba(0, 0, 0, .35);
+}
+
+/* 2. REINICIO Y BASE ------------------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+body.login-body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(circle at 12% 10%, rgba(42, 134, 245, .16), transparent 28rem),
+        radial-gradient(circle at 90% 90%, rgba(42, 134, 245, .10), transparent 28rem),
+        var(--fondo);
+
+    color: var(--texto);
+    font-family: var(--fuente-base);
+}
+
+/* Todo lo que esté dentro del login hereda la fuente
+   (los inputs y botones no la heredan por defecto) */
+body.login-body input,
+body.login-body button,
+body.login-body select,
+body.login-body textarea {
+    font-family: inherit;
+}
+
+/* 3. ESTRUCTURA ------------------------------------------ */
+.login-page {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.login-card {
+    width: 100%;
+    min-height: 590px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    overflow: hidden;
+
+    background: var(--tarjeta);
+    border: 1px solid rgba(117, 182, 255, .20);
+    border-radius: var(--radio-tarjeta);
+    box-shadow: var(--sombra);
+}
+
+/* 4. PANEL DE MARCA (IZQUIERDA) -------------------------- */
+.login-brand {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 55px 42px;
+    text-align: center;
+
+    background:
+        radial-gradient(circle at 50% 25%, rgba(102, 173, 255, .20), transparent 17rem),
+        linear-gradient(145deg, #172f50, #0b192d);
+
+    border-right: 1px solid var(--borde);
+}
+
+/* Círculos decorativos */
+.login-brand::before,
+.login-brand::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    border: 1px solid rgba(117, 182, 255, .15);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.login-brand::before {
+    width: 360px;
+    height: 360px;
+    top: -180px;
+    left: -150px;
+}
+
+.login-brand::after {
+    width: 300px;
+    height: 300px;
+    right: -145px;
+    bottom: -145px;
+}
+
+/* Logo */
+.login-brand img {
+    display: block;
+    width: 135px;
+    height: 135px;
+    margin: 0 auto 22px;
+    object-fit: contain;
+    border-radius: 28px;
+    filter: drop-shadow(0 12px 20px rgba(0, 0, 0, .30));
+}
+
+/* Nombre de marca (el texto "PATITAS FELICES" que salía suelto con subrayado) */
+.login-brand a,
+.login-brand .brand-name {
+    display: inline-block;
+    margin: 0 0 14px;
+
+    color: var(--azul-claro);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.login-brand h1 {
+    margin: 0 0 16px;
+
+    color: #ffffff;
+    font-family: var(--fuente-titulo);
+    font-size: clamp(30px, 4vw, 40px);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.login-brand h1 span {
+    color: var(--azul-claro);
+}
+
+.login-brand p {
+    max-width: 350px;
+    margin: 0;
+
+    color: #d0dced;
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+.login-brand .brand-decoration {
+    margin-top: 30px;
+    color: var(--azul-claro);
+    font-size: 30px;
+}
+
+/* 5. PANEL DEL FORMULARIO (DERECHA) ---------------------- */
+.login-form-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 58px 55px;
+    background: linear-gradient(145deg, #13233a, #0e1a2e);
+}
+
+.login-heading {
+    margin-bottom: 35px;
+}
+
+/* "Tu espacio personal" */
+.login-heading .eyebrow,
+.login-form-section .eyebrow {
+    display: inline-block;
+    margin-bottom: 13px;
+
+    color: var(--azul-claro);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+}
+
+/* "Iniciar sesión" */
+.login-heading h2,
+.login-form-section h2 {
+    margin: 0 0 13px;
+
+    color: #ffffff;
+    font-family: var(--fuente-titulo);
+    font-size: 35px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -.5px;
+}
+
+.login-heading p,
+.login-form-section > p {
+    margin: 0;
+
+    color: var(--texto-secundario);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* 6. CAMPOS Y BOTÓN -------------------------------------- */
+.login-form,
+.login-form-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+    width: 100%;
+}
+
+.login-form .form-group,
+.login-form-section form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin: 0;
+}
+
+.login-form label,
+.login-form-section form label {
+    display: block;
+    margin: 0;
+
+    color: #edf4ff;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: .2px;
+}
+
+.login-form input,
+.login-form-section form input {
+    display: block;
+    width: 100%;
+    height: 54px;
+    margin: 0;
+    padding: 0 17px;
+
+    appearance: none;
+
+    background: var(--campo);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-campo);
+
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 500;
+
+    outline: none;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, .15);
+
+    transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.login-form input::placeholder,
+.login-form-section form input::placeholder {
+    color: var(--texto-muted);
+    opacity: 1;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.login-form input:focus,
+.login-form-section form input:focus {
+    background: #10213a;
+    border-color: var(--azul-claro);
+    box-shadow:
+        0 0 0 3px rgba(42, 134, 245, .18),
+        inset 0 2px 5px rgba(0, 0, 0, .10);
+}
+
+/* Autocompletado del navegador */
+.login-form input:-webkit-autofill,
+.login-form input:-webkit-autofill:hover,
+.login-form input:-webkit-autofill:focus,
+.login-form-section form input:-webkit-autofill {
+    -webkit-text-fill-color: #ffffff;
+    caret-color: #ffffff;
+    box-shadow: 0 0 0 1000px var(--campo) inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Botón */
+.login-btn,
+.login-form button,
+.login-form-section form button[type="submit"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 54px;
+    margin-top: 7px;
+    padding: 13px 20px;
+
+    background: linear-gradient(135deg, #398ff4, #1768c5);
+    border: 1px solid rgba(117, 182, 255, .65);
+    border-radius: var(--radio-campo);
+
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: .4px;
+
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(42, 134, 245, .22);
+
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.login-btn:hover,
+.login-form button:hover,
+.login-form-section form button[type="submit"]:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #59a5ff, #2879d4);
+    box-shadow: 0 12px 27px rgba(42, 134, 245, .32);
+}
+
+.login-btn:active,
+.login-form button:active,
+.login-form-section form button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+.login-btn:focus-visible,
+.login-form button:focus-visible {
+    outline: 3px solid rgba(117, 182, 255, .55);
+    outline-offset: 3px;
+}
+
+/* 7. MENSAJES, ENLACES Y PIE ----------------------------- */
+.login-error {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 13px 15px;
+
+    background: rgba(209, 79, 91, .13);
+    border: 1px solid rgba(209, 79, 91, .55);
+    border-radius: 10px;
+
+    color: #ffc1c6;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+/* "Regresar a Patitas Felices" */
+.login-back,
+.login-form-section a {
+    display: block;
+    width: fit-content;
+    margin: 25px auto 0;
+
+    color: var(--azul-claro);
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+
+    transition: color .2s ease;
+}
+
+.login-back:hover,
+.login-form-section a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+/* Frase "Un espacio pensado para el bienestar..." */
+.login-note {
+    margin: 28px 0 0;
+    color: var(--texto-muted);
+    font-size: 13px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+/* Copyright (funciona dentro o fuera de la tarjeta) */
+.login-copy,
+.login-footer {
+    width: 100%;
+    max-width: 1000px;
+    margin: 22px auto 0;
+
+    color: var(--texto-muted);
+    font-size: 12px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.login-form-section .login-copy {
+    margin-top: 35px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(117, 182, 255, .15);
+}
+
+/* 8. RESPONSIVE ------------------------------------------ */
+@media (max-width: 800px) {
+    body.login-body {
+        padding: 20px;
+    }
+
+    .login-card {
+        max-width: 500px;
+        min-height: auto;
+        margin: auto;
+        grid-template-columns: 1fr;
+    }
+
+    .login-brand {
+        min-height: 245px;
+        padding: 30px 25px;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+    }
+
+    .login-brand img {
+        width: 85px;
+        height: 85px;
+        margin-bottom: 15px;
+    }
+
+    .login-brand h1 {
+        margin-bottom: 9px;
+        font-size: 29px;
+    }
+
+    .login-brand p {
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    .login-brand .brand-decoration {
+        display: none;
+    }
+
+    .login-form-section {
+        padding: 40px 38px;
+    }
+
+    .login-heading {
+        margin-bottom: 28px;
+    }
+
+    .login-heading h2,
+    .login-form-section h2 {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    body.login-body {
+        padding: 12px;
+    }
+
+    .login-card {
+        border-radius: 16px;
+    }
+
+    .login-brand {
+        min-height: 210px;
+        padding: 23px 18px;
+    }
+
+    .login-brand img {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 12px;
+    }
+
+    .login-brand h1 {
+        font-size: 25px;
+    }
+
+    .login-brand p {
+        font-size: 12px;
+    }
+
+    .login-form-section {
+        padding: 32px 23px;
+    }
+
+    .login-heading {
+        margin-bottom: 25px;
+    }
+
+    .login-heading h2,
+    .login-form-section h2 {
+        font-size: 27px;
+    }
+
+    .login-heading p,
+    .login-form-section > p {
+        font-size: 13px;
+    }
+
+    .login-form,
+    .login-form-section form {
+        gap: 19px;
+    }
+
+    .login-form label {
+        font-size: 13px;
+    }
+
+    .login-form input,
+    .login-form-section form input {
+        height: 50px;
+        font-size: 14px;
+    }
+
+    .login-btn,
+    .login-form button {
+        min-height: 50px;
+    }
+}
+
+/* 9. ACCESIBILIDAD --------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
